@@ -5,33 +5,33 @@
 
 function init() {
     // code that runs once (only on page load or refresh)
-    // d3.json("samples.json").then(function (jsonData) {
-    //     let data = jsonData;
-    //     // console.log(data)
+    d3.json("samples.json").then(function (jsonData) {
+        let data = jsonData;
+        // console.log(data)
             
-    //     //Capturing the id, for dropdown menus
-    //     let dataNames = data.names;
-    //     let dropDownMenu = d3.select("#selDataset");
+        //Capturing the id, for dropdown menus
+        let dataNames = data.names;
+        let dropDownMenu = d3.select("#selDataset");
     
-    //     dataNames.forEach(function (name) {
-    //       dropDownMenu.append("option").text(name).property("value", name);
-    //     });
+        dataNames.forEach(function (name) {
+          dropDownMenu.append("option").text(name).property("value", name);
+        });
 
-    //     // using first sample (id 940)  from the data for initial plot
-    //     let testSubject = data.samples.filter((val) => val.id == '940');
-    //     // console.log(testSubject);
-    //     //taking the first array for sample info
-    //     let result = testSubject[0];
-    //      console.log(result)
+        // using first sample (id 940)  from the data for initial plot
+        let testSubject = data.samples.filter((val) => val.id == '940');
+        // console.log(testSubject);
+        //taking the first array for sample info
+        let result = testSubject[0];
+         console.log(result)
 
-    //     let ids = result.otu_ids;
-    //     let values = result.sample_values;
-    //     let labels = result.otu_labels;
-    //     console.log(ids)
+        let ids = result.otu_ids;
+        let values = result.sample_values;
+        let labels = result.otu_labels;
+        // console.log(ids)
        
 
     
-    // });
+    });
 
     // this checks that our initial function runs.
     console.log("The Init() function ran")
@@ -61,6 +61,55 @@ function optionChanged(newID){
 
 function createScatter(id){
     // code that makes scatter plot at id='bubble'
+    d3.json("samples.json").then(function (jsonData) {
+        let data = jsonData;
+        console.log(data)
+            
+        //Capturing the id, for dropdown menus
+        let dataNames = data.names;
+        let dropDownMenu = d3.select("#selDataset");
+    
+        dataNames.forEach(function (name) {
+          dropDownMenu.append("option").text(name).property("value", name);
+        });
+
+        // using first sample (id 940)  from the data for initial plot
+        let testSubject = data.samples.filter((val) => val.id == id);
+        // console.log(testSubject);
+        //taking the first array for sample info
+        let result = testSubject[0];
+        // console.log(result)
+
+        let ids = result.otu_ids;
+        let values = result.sample_values;
+        let labels = result.otu_labels;
+
+        let bubble_data = [
+            {
+                y: values,
+                x: ids,
+                text: labels,                
+                mode: "markers",
+                
+                marker: {
+                    size: values,
+                    color: values
+                }
+            }
+        ];
+        let Layout = {
+            title: "Bubble chart of Otus Distribution"
+           };
+
+        Plotly.newPlot("bubble", bubble_data, Layout);
+       
+
+    
+    });
+    
+
+    
+    
 
     // checking to see if function is running
     console.log(`This function generates scatter plot of ${id} `)
@@ -82,10 +131,10 @@ function createBar(id){
 
         // using first sample (id 940)  from the data for initial plot
         let testSubject = data.samples.filter((val) => val.id == id);
-        console.log(testSubject);
+        // console.log(testSubject);
         //taking the first array for sample info
         let result = testSubject[0];
-        console.log(result)
+        // console.log(result)
 
         let ids = result.otu_ids;
         let values = result.sample_values;
