@@ -93,7 +93,7 @@ function createScatter(id){
                 
                 marker: {
                     size: values,
-                    color: values
+                    color: ids
                 }
             }
         ];
@@ -168,7 +168,33 @@ function createBar(id){
 
 function createSummary(id){
     // code that makes list, paragraph, text/linebreaks at id='sample-meta'
+    d3.json("samples.json").then(function (jsonData) {
+        let data = jsonData;
+        console.log(data)
+            
+        //Capturing the id, for dropdown menus
+        let dataNames = data.names;
+        let dropDownMenu = d3.select("#selDataset");
+    
+        dataNames.forEach(function (name) {
+          dropDownMenu.append("option").text(name).property("value", name);
+        });
 
+        // using first sample (id 940)  from the data for initial metadata
+        let testSubject = data.metadata.filter((val) => val.id == id);
+        // console.log(testSubject);
+        //taking the first value of the element
+        let result = testSubject[0];
+        // console.log(result)
+        let panel = d3.select("#sample-metadata");
+
+        // entering hte keys and values for selected id into the panel as element
+        Object.entries(result).forEach(([key, value]) => {
+            panel.append("h6").text(`${key}: ${value}`)});
+              
+       
+    
+    });
     // checking to see if function is running
     console.log(`This function generates summary info of ${id} `)
 }
